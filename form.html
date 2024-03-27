@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: rgb(200, 254, 236);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        form {
+            width: 300px;
+            padding: 20px;
+            background-color: whitesmoke;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        label,
+        input {
+            display: block;
+            margin-bottom: 10px;
+        }
+        button{
+            height: 30px;
+            background-image: linear-gradient(#3E5151+#DECBA4);
+            width: 100px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .error {
+            color: red;
+            font-size: 0.8em;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <form id="myForm">
+        <h2 class="text-center">Registration Form</h2>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name">
+
+        <label for="phone">Phone Number:</label>
+        <input type="text" id="phone" name="phone">
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email">
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password">
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        document.getElementById('myForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            let isValid = true;
+
+            // Validate name
+            if (name.trim() === '') {
+                showError('name', 'Name is required');
+                isValid = false;
+            } else {
+                hideError('name');
+            }
+
+            // Validate phone number
+            if (!isValidPhoneNumber(phone)) {
+                showError('phone', 'Phone number is not valid');
+                isValid = false;
+            } else {
+                hideError('phone');
+            }
+
+            // Validate email
+            if (!isValidEmail(email)) {
+                showError('email', 'Email is not valid');
+                isValid = false;
+            } else {
+                hideError('email');
+            }
+
+            // Validate password
+            if (password.trim() === '') {
+                showError('password', 'Password is required');
+                isValid = false;
+            } else {
+                hideError('password');
+            }
+
+            if (isValid) {
+                alert('Form submitted successfully!');
+                // You can submit the form here
+                // document.getElementById('myForm').submit();
+            }
+        });
+
+        function showError(inputId, errorMessage) {
+            const input = document.getElementById(inputId);
+            const errorElement = document.createElement('div');
+            errorElement.className = 'error';
+            errorElement.innerText = errorMessage;
+            input.parentNode.insertBefore(errorElement, input.nextSibling);
+        }
+
+        function hideError(inputId) {
+            const input = document.getElementById(inputId);
+            const errorElement = input.nextElementSibling;
+            if (errorElement && errorElement.classList.contains('error')) {
+                errorElement.remove();
+            }
+        }
+
+        function isValidPhoneNumber(phone) {
+            // Basic phone number validation (10 digits)
+            const phoneRegex = /^\d{10}$/;
+            return phoneRegex.test(phone);
+        }
+
+        function isValidEmail(email) {
+            // Basic email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+    </script>
+</body>
+
+</html>
